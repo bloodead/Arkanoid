@@ -39,6 +39,7 @@ int	init_env(t_env* env)
 	env->h = tgetnum("li");
 	env->cm = tgetstr("cm", 0);
 	env->cl = tgetstr("cl", 0);
+	tputs(tgetstr("vi", 0), 1, id_put);
 	return 0;
 }
 
@@ -52,9 +53,9 @@ void	init_cadre(t_env* env)
 	while (x < env->w)
 	{
 		tputs(tgoto(env->cm, x, 0), 1, id_put);
-		write(1, '#', 1);
+		write(1, "#", 1);
 		tputs(tgoto(env->cm, x, env->h - 1), 1, id_put);
-		write(1, '#', 1);
+		write(1, "#", 1);
 		x = x + 1;
 	}
 	y = 1;
@@ -62,7 +63,7 @@ void	init_cadre(t_env* env)
 	{
 		tputs(tgoto(env->cm, 0, y), 1, id_put);
 		write(1, "#", 1);
-		tputs(tgoto(env->cm, env->w - 1, y), 1, id_put);
+		tputs(tgoto(env->cm, env->w, y), 1, id_put);
 		write(1, "#", 1);
 		y = y + 1;
 	}
@@ -96,8 +97,8 @@ void	check_wall(t_env* env)
 		env->balle.addx = 1;
 	else if (x >= env->w - 1)
 		env->balle.addx = -1;
-	x = env->balle.x + env->balle.addx;
-	if (y <= 1)
+	y = env->balle.y + env->balle.addy;
+	if (y <= 0)
 		env->balle.addy = 1;
 	else if (y >= env->h - 1)
 		env->balle.addy = -1;
@@ -105,11 +106,13 @@ void	check_wall(t_env* env)
 
 void	move_balle(t_env* env)
 {
+	tputs(tgoto(env->cm, env->balle.x, env->balle.y), 1, id_put);
+	write(1, " ", 1);
 	env->balle.x = env->balle.x + env->balle.addx;
 	env->balle.y = env->balle.y + env->balle.addy;
 	tputs(tgoto(env->cm, env->balle.x, env->balle.y), 1, id_put);
 	write(1, "0", 1);
-	usleep(500000);
+	usleep(90000);
 }
 
 int	run(t_env* env)
