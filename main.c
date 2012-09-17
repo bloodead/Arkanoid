@@ -3,27 +3,28 @@
 #include <curses.h>
 #include <term.h>
 
+typedef struct s_balle
+{
+	int     x;
+	int     y;
+	int     addx;
+	int     addy;
+}	t_balle;
+
 typedef struct s_env
 {
 	int	w;
 	int	h;
 	char*	cm;
 	char*	cl;
+	t_balle	balle;
 }	t_env;
-
-typedef struct s_balle
-{
-	int	w;
-	int	h;
-	int	addx;
-	int	addy;
-}	t_balle;
 
 int	id_put(int c)
 {
 	char	d;
 
-	d = c
+	d = c;
 	write(1, &d, 1);
 }
 
@@ -46,7 +47,7 @@ void	init_cadre(t_env* env)
 	int	x;
 	int	y;
 
-	tputs(env->cl, 1, id_put)
+	tputs(env->cl, 1, id_put);
 	x = 0;
 	while (x < env->w)
 	{
@@ -99,7 +100,7 @@ void	check_wall(t_env* env)
 	if (y <= 1)
 		env->balle.addy = 1;
 	else if (y >= env->h - 1)
-		env->balle.addh = -1;
+		env->balle.addy = -1;
 }
 
 void	move_balle(t_env* env)
