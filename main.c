@@ -11,6 +11,14 @@ typedef struct s_env
 	char*	cl;
 }	t_env;
 
+typedef struct s_balle
+{
+	int	w;
+	int	h;
+	int	addx;
+	int	addy;
+}	t_balle;
+
 int	id_put(int c)
 {
 	char	d;
@@ -49,17 +57,67 @@ void	init_cadre(t_env* env)
 		x = x + 1;
 	}
 	y = 1;
-	while (y
+	while (y < env->h - 1)
+	{
+		tputs(tgoto(env->cm, 0, y), 1, id_put);
+		write(1, "#", 1);
+		tputs(tgoto(env->cm, env->w - 1, y), 1, id_put);
+		write(1, "#", 1);
+		y = y + 1;
+	}
+}
+
+void	init_balle(t_env* env)
+{
+	srand(time(0));
+	env->balle.x = (rand() % (env->w - 2)) + 1;
+	env->balle.y = (rand() % (env->h - 2)) + 1;
+	env->balle.addx = 1 - (rand() % 2) * 2;
+	env->balle.addy = 1 - (rand() % 2) * 2;
+	tputs(tgoto(env->cm, env->balle.x, env->balle.y), 1, id_put);
+}
 
 int	init(t_env* env)
 {
 	if (init_env(env))
-		return 1;
+		return (1);
 	init_cadre(env);
+	init_balle(env);
+}
+
+void	check_wall(t_env* env)
+{
+	int	x;
+	int	y;
+
+	x = env->balle.x + env->balle.addx;
+	if (x <= 1)
+		env->balle.addx = 1;
+	else if (x >= env->w - 1)
+		env->balle.addx = -1;
+	x = env->balle.x + env->balle.addx;
+	if (y <= 1)
+		env->balle.addy = 1;
+	else if (y >= env->h - 1)
+		env->balle.addh = -1;
+}
+
+void	move_balle(t_env* env)
+{
+	env->balle.x = env->balle.x + env->balle.addx;
+	env->balle.y = env->balle.y + env->balle.addy;
+	tputs(tgoto(env->cm, env->balle.x, env->balle.y), 1, id_put);
+	write(1, "0", 1);
+	usleep(500000);
 }
 
 int	run(t_env* env)
 {
+	while (1)
+	{
+		check_wall(env);
+		move_balle(env);
+	}
 	return 0;
 }
 
@@ -67,4 +125,8 @@ int	main(void)
 {
 	t_env	env;
 
+	if (init(&env))
+		return (42);
+	if (run(&env))
+		return (42);
 }
