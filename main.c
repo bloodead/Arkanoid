@@ -1,6 +1,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <curses.h>
+#include <stdio.h>
 #include <term.h>
 
 typedef struct s_balle
@@ -53,9 +54,9 @@ void	init_cadre(t_env* env)
 	while (x < env->w)
 	{
 		tputs(tgoto(env->cm, x, 0), 1, id_put);
-		write(1, "#", 1);
+		write(1, ".", 1);
 		tputs(tgoto(env->cm, x, env->h - 1), 1, id_put);
-		write(1, "#", 1);
+		write(1, ".", 1);
 		x = x + 1;
 	}
 	y = 1;
@@ -66,6 +67,14 @@ void	init_cadre(t_env* env)
 		tputs(tgoto(env->cm, env->w, y), 1, id_put);
 		write(1, "#", 1);
 		y = y + 1;
+	}
+	y = 60;
+	x = 80;
+	while (x < 110)
+	{
+		tputs(tgoto(env->cm, x, y), 1, id_put);
+		write(1, "=", 1);
+		x = x + 1;
 	}
 }
 
@@ -93,7 +102,7 @@ void	check_wall(t_env* env)
 	int	y;
 
 	x = env->balle.x + env->balle.addx;
-	if (x <= 1)
+	if (x <= 0)
 		env->balle.addx = 1;
 	else if (x >= env->w - 1)
 		env->balle.addx = -1;
@@ -101,6 +110,8 @@ void	check_wall(t_env* env)
 	if (y <= 0)
 		env->balle.addy = 1;
 	else if (y >= env->h - 1)
+		env->balle.addy = -1;
+	if (y == 60 && x >= 80 && x <= 110)
 		env->balle.addy = -1;
 }
 
