@@ -48,7 +48,9 @@ void	init_cadre(t_env* env)
 {
 	int	x;
 	int	y;
+	int	count;
 
+	count = 0;
 	tputs(env->cl, 1, id_put);
 	x = 0;
 	while (x < env->w)
@@ -67,17 +69,18 @@ void	init_cadre(t_env* env)
 		tputs(tgoto(env->cm, env->w, y), 1, id_put);
 		write(1, "#", 1);
 		y = y + 1;
-	}
-	y = 60;
-	x = 80;
-	while (x < 110)
+	};
+	count = (env->w / 10);
+	x = (3 * (env->w / 6) - (count / 2));
+	y = 5 * (env->h / 6);
+	while (count > 0)
 	{
 		tputs(tgoto(env->cm, x, y), 1, id_put);
 		write(1, "=", 1);
 		x = x + 1;
+		count = count - 1;
 	}
 }
-
 void	init_balle(t_env* env)
 {
 	srand(time(0));
