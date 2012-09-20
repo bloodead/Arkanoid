@@ -29,4 +29,5 @@ typedef struct	s_env
 void	init_barre(t_env* env);
 void	actua_barre(t_env* env, int direct);
 void	move_barre(t_env* env);
+int	id_put(int c);
 #endif
