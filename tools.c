@@ -1,3 +1,8 @@
+#include <term.h>
+#include <stdio.h>
+#include <curses.h>
+#include <stdlib.h>
+#include <stdarg.h>
 #include "base.h"
 
 int	id_put(int c)
@@ -48,23 +53,4 @@ void	init_cadre(t_env* env)
 		write(1, "#", 1);
 		y = y + 1;
 	}
-}
-
-void	check_wall(t_env* env)
-{
-	int	x;
-	int	y;
-
-	x = env->balle.x + env->balle.addx;
-	if (x <= 0)
-		env->balle.addx = 1;
-	else if (x >= env->w - 1)
-		env->balle.addx = -1;
-	y = env->balle.y + env->balle.addy;
-	if (y <= 0)
-		env->balle.addy = 1;
-	else if (y >= env->h - 1)
-		env->balle.addy = -1;
-	if (y == env->barre.y  && x >= env->barre.x && x <= env->barre.size)
-		env->balle.addy = -1;
 }

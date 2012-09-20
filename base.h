@@ -34,5 +34,4 @@ void	move_balle(t_env* env);
 int	id_put(int c);
 int	init_env(t_env* env);
 void	init_cadre(t_env* env);
-void	check_wall(t_env* env);
 #endif

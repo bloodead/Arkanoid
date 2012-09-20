@@ -21,7 +21,7 @@ void	actua_barre(t_env* env, int direct)
 	int	x;
 	int	count;
 
-	count = 4;
+	count = 3;
 	x = env->barre.x;
 	while (x < env->barre.size)
 	{
@@ -45,6 +45,27 @@ void	actua_barre(t_env* env, int direct)
 	}
 }
 
+void	verif_box(t_env* env)
+{
+	if (env->barre.x < 0)
+	{
+		while (env->barre.x != 1)
+		{
+			env->barre.x = env->barre.x + 1;
+			env->barre.size = env->barre.size + 1;
+		}
+	}
+	else if (env->barre.size > env->w)
+	{
+		while (env->barre.size != env->w - 2)
+		{
+			env->barre.x = env->barre.x - 1;
+			env->barre.size = env->barre.size - 1;
+		}
+	}
+}
+
+
 void	move_barre(t_env* env)
 {
 	int	y;
@@ -52,20 +73,22 @@ void	move_barre(t_env* env)
 
 	direct = 0;
 	y = env->balle.addy;
-	if (y == 1 && (env->balle.x < env->barre.x + 4 || env->balle.x > env->barre.size - 3 )
+	if (y == 1 && (env->balle.x < env->barre.x + 3 || env->balle.x > env->barre.size - 3 )
 		       && env->balle.y < env->barre.y - 1)
 	{
-		direct =  (env->barre.x + 6) - env->balle.x;
+		direct =  (env->barre.x + ((env->w / 100) * 4)) - env->balle.x;
 		if (direct > 0)
 		{
-			env->barre.size = env->barre.size - 4;
-			env->barre.x = env->barre.x - 4;
+			env->barre.size = env->barre.size - 3;
+			env->barre.x = env->barre.x - 3;
+			verif_box(env);
 			actua_barre(env, direct);
 		}
 		if(direct < 0)
 		{
-			env->barre.x = env->barre.x + 4;
-			env->barre.size = env->barre.size + 4;
+			env->barre.x = env->barre.x + 3;
+			env->barre.size = env->barre.size + 3;
+			verif_box(env);
 			actua_barre(env, direct);
 		}
 	}
