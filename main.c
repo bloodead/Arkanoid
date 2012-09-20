@@ -78,15 +78,37 @@ void	init_cadre(t_env* env)
 		write(1, "#", 1);
 		y = y + 1;
 	}
-	x = (env->w / 2) - ((env->w / 100) * 6);
-	y = 5 * (env->h / 6);
-	while (x < (env->w / 2) + ((env->w / 100) * 3))
+}
+
+void	init_barre(t_env* env)
+{
+	int	x;
+
+	env->barre.x = (env->w / 2) - ((env->w / 100) * 6);
+	env->barre.y = 5 * (env->h / 6);
+	env->barre.size = (env->w / 2) + ((env->w / 100) * 3);
+	x = env->barre.x;
+	while (x < env->barre.size)
 	{
-		tputs(tgoto(env->cm, x, y), 1, id_put);
+		tputs(tgoto(env->cm, x, env->barre.y), 1, id_put);
 		write(1,"=", 1);
 		x = x + 1;
 	}
 }
+
+void	actua_barre(t_env* env)
+{
+	int	x;
+
+	x = env->barre.x;
+	while (x < env->barre.size)
+	{
+		tputs(tgoto(env->cm, x, env->barre.y), 1, id_put);
+		write(1,"=", 1);
+		x = x + 1;
+	}
+}
+
 void	init_balle(t_env* env)
 {
 	srand(time(0));
@@ -103,6 +125,7 @@ int	init(t_env* env)
 		return (1);
 	init_cadre(env);
 	init_balle(env);
+	init_barre(env);
 }
 
 void	check_wall(t_env* env)
@@ -120,7 +143,7 @@ void	check_wall(t_env* env)
 		env->balle.addy = 1;
 	else if (y >= env->h - 1)
 		env->balle.addy = -1;
-	if (y == 5 * (env->h / 6) && x >= (env->w / 2) - ((env->w / 100) * 6) && x <= (env->w / 2) + ((env->w / 100) * 3))
+	if (y == env->barre.y && x >= env->barre.x && x <= env->barre.size)
 		env->balle.addy = -1;
 }
 
@@ -135,11 +158,37 @@ void	move_balle(t_env* env)
 	usleep(40000);
 }
 
+void	move_barre(t_env* env)
+{
+	int	y;
+	int	direct;
+
+	direct = 0;
+	y = env->balle.addy;
+	if (y == 1 && env->balle.x < env->barre.x || env->balle.x > env->barre.size)
+	{
+		direct =  env->barre.x - env->balle.x;
+		if (direct > 0)
+		{
+			env->barre.x = env->barre.x + 1;
+			env->barre.size = env->barre.size + 1;
+			actua_barre(env);
+		}
+		if (direct < 0)
+		{
+			env->barre.x = env->barre.x - 1;
+			env->barre.size = env->barre.size - 1;
+			actua_barre(env);
+		}
+	}
+}
+
 int	run(t_env* env)
 {
 	while (1)
 	{
 		check_wall(env);
+		move_barre(env);
 		move_balle(env);
 	}
 	return 0;
@@ -149,8 +198,6 @@ int	main(void)
 {
 	t_env	env;
 
-	if (init(&env))
-		return (42);
-	if (run(&env))
-		return (42);
+	init(&env);
+	run(&env);
 }
