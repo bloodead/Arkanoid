@@ -1,3 +1,5 @@
+#include "base.h"
+
 void	init_barre(t_env* env)
 {
 	int	x;
