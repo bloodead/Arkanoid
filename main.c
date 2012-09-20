@@ -71,7 +71,7 @@ void	init_cadre(t_env* env)
 		y = y + 1;
 	}
 	x = (env->w / 2) - ((env->w / 100) * 6);
-	y = 6 * (env->h / 6);
+	y = 5 * (env->h / 6);
 	while (x < (env->w / 2) + ((env->w / 100) * 3))
 	{
 		tputs(tgoto(env->cm, x, y), 1, id_put);
