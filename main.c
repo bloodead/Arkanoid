@@ -12,6 +12,13 @@ typedef struct s_balle
 	int     addy;
 }	t_balle;
 
+typedef struct s_barre
+{
+	int	x;
+	int	y;
+	int	size;
+}	t_barre;
+
 typedef struct s_env
 {
 	int	w;
@@ -19,6 +26,7 @@ typedef struct s_env
 	char*	cm;
 	char*	cl;
 	t_balle	balle;
+	t_barre barre;
 }	t_env;
 
 int	id_put(int c)
