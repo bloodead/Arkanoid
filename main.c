@@ -34,7 +34,6 @@ void	init_cadre(t_env* env)
 	int	y;
 	int	count;
 
-	count = 0;
 	tputs(env->cl, 1, id_put);
 	x = 0;
 	while (x < env->w)
