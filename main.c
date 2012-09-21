@@ -45,14 +45,14 @@ void	check_wall(t_env* env, t_mur* mur)
 		env->balle.addy = -1;
 	while (mur->next != 0)
 	{
-			if (y == mur->brick.y)
-			if (x >= mur->brick.x && x <= mur->brick.x + 3)
+		if (y == mur->brick.y)
+			if (x >= mur->brick.x && x < mur->brick.x + 4)
 			{
 				destroy_brick(mur, env);
 				env->balle.addy = 1;
 				break;
 			}
-				mur = mur->next;
+		mur = mur->next;
 	}
 		
 }
