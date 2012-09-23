@@ -22,9 +22,9 @@ void	init_mur(t_mur* mur, t_env* env)
 	int	x;
 	int	y;
 
-	y = 6;
+	y = 2;
 	begin = mur;
-	while (y != 10)
+	while (y != 6)
 	{
 		numb_mur = (env->w / 4) - 2;
 		x = 2;

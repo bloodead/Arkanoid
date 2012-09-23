@@ -1,6 +1,10 @@
 #ifndef _base_h_
 #define _base_h_
 
+typedef struct	s_player
+{
+	int	point;
+}	t_player;
 
 typedef struct	s_brick
 {
@@ -37,6 +41,7 @@ typedef struct	s_env
 	char*	cl;
 	t_balle	balle;
 	t_barre barre;
+	t_player player;
 }	t_env;
 
 void	init_mur(t_mur* mur, t_env* env);

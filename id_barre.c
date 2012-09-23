@@ -55,7 +55,7 @@ void	verif_box(t_env* env)
 			env->barre.size = env->barre.size + 1;
 		}
 	}
-	else if (env->barre.size > env->w)
+	else if (env->barre.size >= env->w)
 	{
 		while (env->barre.size != env->w - 2)
 		{

@@ -1,8 +1,9 @@
 #include <term.h>
 #include <stdio.h>
-#include <curses.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
 #include "base.h"
 
 int	id_put(int c)
@@ -23,6 +24,7 @@ int	init_env(t_env* env)
 	env->h = tgetnum("li");
 	env->cm = tgetstr("cm", 0);
 	env->cl = tgetstr("cl", 0);
+	env->player.point = 0;
 	tputs(tgetstr("vi", 0), 1, id_put);
 	return 0;
 }
@@ -35,16 +37,17 @@ void	init_cadre(t_env* env)
 
 	count = 0;
 	tputs(env->cl, 1, id_put);
+	printf("Player Score : %d\n",env->player.point);
 	x = 0;
 	while (x < env->w)
 	{
-		tputs(tgoto(env->cm, x, 0), 1, id_put);
+		tputs(tgoto(env->cm, x, 4), 1, id_put);
 		write(1, ".", 1);
 		tputs(tgoto(env->cm, x, env->h - 1), 1, id_put);
 		write(1, ".", 1);
 		x = x + 1;
 	}
-	y = 1;
+	y = 5;
 	while (y < env->h - 1)
 	{
 		tputs(tgoto(env->cm, 0, y), 1, id_put);
@@ -52,5 +55,22 @@ void	init_cadre(t_env* env)
 		tputs(tgoto(env->cm, env->w, y), 1, id_put);
 		write(1, "#", 1);
 		y = y + 1;
+	}
+}
+
+
+
+void	resize_env(t_env* env,t_mur* mur)
+{
+	struct	winsize w;
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+
+	if (env->w != w.ws_col || env->h != w.ws_row)
+	{
+	env->w = w.ws_col;
+	env->h = w.ws_row;
+	init_cadre(env);
+	show_mur(mur, env);
+	init_barre(env);
 	}
 }
