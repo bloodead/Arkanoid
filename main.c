@@ -16,7 +16,7 @@ void	destroy_brick(t_mur* mur, t_env* env)
 	while (count != 4)
 	{
 		tputs(tgoto(env->cm, x, mur->brick.y), 1, id_put);
-		write(1, " ", 1);
+		id_print_str("\033[01;40m ");
 		count = count + 1;
 		x = x + 1;
 	}
@@ -64,8 +64,8 @@ void	check_wall(t_env* env, t_mur* mur)
 		env->balle.addy = -1;
 	while (mur->next != 0)
 	{
-		if (y == mur->brick.y + 1 || y == mur->brick.y - 1)
-			if (x >= mur->brick.x && x < mur->brick.x + 4)
+		if (y == mur->brick.y + 1)
+			if (x >= mur->brick.x - 1 && x < mur->brick.x + 4)
 			{
 				if (mur->brick.bonus == 1)
 					bonus(mur,env);
@@ -74,6 +74,17 @@ void	check_wall(t_env* env, t_mur* mur)
 				env->balle.addy = 1;
 				break;
 			}
+		else if (y == mur->brick.y - 1)
+			if (x >= mur->brick.x - 1 && x < mur->brick.x + 4)
+			{
+				if (mur->brick.bonus == 1)
+					bonus(mur,env);
+				destroy_brick(mur, env);
+				actu_score(env);
+				env->balle.addy = -1;
+				break;
+			}
+			
 		mur = mur->next;
 	}
 		
@@ -96,10 +107,10 @@ int	run(t_env* env, t_mur* mur)
 	{
 		if (env->bonus == 1)
 			bonus_down(mur, env);
+		move_balle(env);
 		move_barre(env);
 		check_wall(env, mur);
 		resize_env(env, mur);
-		move_balle(env);
 	}
 	return 0;
 }
