@@ -39,7 +39,8 @@ void	actu_score(t_env* env)
 		x = x + 1;
 	}
 	tputs(tgoto(env->cm, 0, 0), 1, id_put);
-	printf("Player score: %d\n",env->player.point);
+	id_print_str("\033[22;32mPlayer Score: ");
+	id_print_nbr(env->player.point);
 	
 
 }
@@ -66,6 +67,8 @@ void	check_wall(t_env* env, t_mur* mur)
 		if (y == mur->brick.y + 1 || y == mur->brick.y - 1)
 			if (x >= mur->brick.x && x < mur->brick.x + 4)
 			{
+				if (mur->brick.bonus == 1)
+					bonus(mur,env);
 				destroy_brick(mur, env);
 				actu_score(env);
 				env->balle.addy = 1;
@@ -88,9 +91,11 @@ int	init(t_env* env, t_mur* mur)
 
 int	run(t_env* env, t_mur* mur)
 {
-	sleep(10);
+	start_wait(env,10);
 	while (1)
 	{
+		if (env->bonus == 1)
+			bonus_down(mur, env);
 		move_barre(env);
 		check_wall(env, mur);
 		resize_env(env, mur);

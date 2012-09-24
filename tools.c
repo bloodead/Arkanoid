@@ -25,6 +25,7 @@ int	init_env(t_env* env)
 	env->cm = tgetstr("cm", 0);
 	env->cl = tgetstr("cl", 0);
 	env->player.point = 0;
+	env->bonus = 0;
 	tputs(tgetstr("vi", 0), 1, id_put);
 	return 0;
 }

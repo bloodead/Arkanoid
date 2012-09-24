@@ -11,7 +11,7 @@ void	init_barre(t_env* env)
 	while (x < env->barre.size)
 	{
 		tputs(tgoto(env->cm, x, env->barre.y), 1, id_put);
-		write(1,"=", 1);
+		id_print_str("\033[34;01m=");
 		x = x + 1;
 	}
 }
@@ -40,14 +40,14 @@ void	actua_barre(t_env* env, int direct)
 			count = count - 1;
 		}
 		tputs(tgoto(env->cm, x, env->barre.y), 1, id_put);
-		write(1,"=", 1);
+		id_print_str("\033[01;37m=");
 		x = x + 1;
 	}
 }
 
 void	verif_box(t_env* env)
 {
-	if (env->barre.x < 0)
+	if (env->barre.x <= 0)
 	{
 		while (env->barre.x != 1)
 		{
@@ -73,7 +73,7 @@ void	move_barre(t_env* env)
 
 	direct = 0;
 	y = env->balle.addy;
-	if (y == 1 && (env->balle.x < env->barre.x + 3 || env->balle.x > env->barre.size - 3 )
+	if (y == 1 && (env->balle.x <= env->barre.x + 3 || env->balle.x >= env->barre.size - 3 )
 		       && env->balle.y < env->barre.y - 1)
 	{
 		direct =  (env->barre.x + ((env->w / 100) * 4)) - env->balle.x;

@@ -6,10 +6,10 @@ void	show_mur(t_mur* begin, t_env* env)
 	while (begin->next != 0)
 	{
 		tputs(tgoto(env->cm, begin->brick.x, begin->brick.y), 1, id_put);
-		write(1, "*", 1);
-		write(1, "-", 1);
-		write(1, "-", 1);
-		write(1, "*", 1);
+		id_print_str("\033[01;33m*");
+		id_print_str("\033[01;33m-");
+		id_print_str("\033[01;33m-");
+		id_print_str("\033[01;33m*");
 		begin = begin->next;
 	}
 
@@ -32,6 +32,8 @@ void	init_mur(t_mur* mur, t_env* env)
 		{	
 			mur->brick.x = x;
 			mur->brick.y = y;
+			if (numb_mur == 70)
+			mur->brick.bonus = 1;
 			mur->next = (t_mur*)malloc(sizeof(*mur));
 			mur = mur->next;
 			x = x + 4;

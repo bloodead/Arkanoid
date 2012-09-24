@@ -10,6 +10,7 @@ typedef struct	s_brick
 {
 	int	x;
 	int	y;
+	int	bonus;
 }	t_brick;
 
 typedef struct	s_mur
@@ -39,11 +40,19 @@ typedef struct	s_env
 	int	h;
 	char*	cm;
 	char*	cl;
+	int	bonus;
+	int	bonusx;
+	int	bonusy;
 	t_balle	balle;
 	t_barre barre;
 	t_player player;
 }	t_env;
 
+void    bonus(t_mur* mur, t_env* env);
+void    bonus_down(t_mur* mur, t_env* env);
+void    start_wait(t_env* env, int i);
+void    id_print_nbr(int n);
+void id_print_str(char* str);
 void	init_mur(t_mur* mur, t_env* env);
 void	init_barre(t_env* env);
 void	actua_barre(t_env* env, int direct);
