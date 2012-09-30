@@ -5,6 +5,29 @@
 #include "base.h"
 
 
+void	finish(t_env* env)
+{
+	int	x;
+	int	y;
+	t_mur	mur;
+
+	x = env->w / 2;
+	y = env->h / 2;
+	tputs(tgoto(env->cm, x - 11, y), 1, id_put);
+	id_print_str("La partie est fini");
+	env->level.lvl = env->level.lvl + 1;
+	env->level.n_mur = env->level.n_mur + 2;
+	init_cadre(env);
+	init_mur(&mur, env);
+	init_balle(env);
+	init_barre(env);
+	tputs(tgoto(env->cm, 0, 1), 1, id_put);
+	id_print_str("\033[22;32mLevel: ");
+	id_print_nbr(env->level.lvl);
+	sleep(10);
+	run(env, &mur);
+}
+
 
 void	destroy_brick(t_mur* mur, t_env* env)
 {
@@ -20,9 +43,14 @@ void	destroy_brick(t_mur* mur, t_env* env)
 		count = count + 1;
 		x = x + 1;
 	}
-	 mur->brick.y = -1;
-	 mur->brick.x = -1;
-
+	mur->brick.y = -1;
+	mur->brick.x = -1;
+	env->level.mur = env->level.mur - 1;
+	if (env->level.mur == 0)
+	{
+		free(mur);
+		finish(env);
+	}
 }
 
 
@@ -41,7 +69,6 @@ void	actu_score(t_env* env)
 	tputs(tgoto(env->cm, 0, 0), 1, id_put);
 	id_print_str("\033[22;32mPlayer Score: ");
 	id_print_nbr(env->player.point);
-	
 
 }
 
@@ -62,32 +89,7 @@ void	check_wall(t_env* env, t_mur* mur)
 		env->balle.addy = -1;
 	if (y == env->barre.y  && x >= env->barre.x && x <= env->barre.size)
 		env->balle.addy = -1;
-	while (mur->next != 0)
-	{
-		if (y == mur->brick.y + 1)
-			if (x >= mur->brick.x - 1 && x < mur->brick.x + 4)
-			{
-				if (mur->brick.bonus == 1)
-					bonus(mur,env);
-				destroy_brick(mur, env);
-				actu_score(env);
-				env->balle.addy = 1;
-				break;
-			}
-		else if (y == mur->brick.y - 1)
-			if (x >= mur->brick.x - 1 && x < mur->brick.x + 4)
-			{
-				if (mur->brick.bonus == 1)
-					bonus(mur,env);
-				destroy_brick(mur, env);
-				actu_score(env);
-				env->balle.addy = -1;
-				break;
-			}
-			
-		mur = mur->next;
-	}
-		
+	coli_brick(env, mur);
 }
 
 int	init(t_env* env, t_mur* mur)
@@ -102,7 +104,7 @@ int	init(t_env* env, t_mur* mur)
 
 int	run(t_env* env, t_mur* mur)
 {
-	start_wait(env,10);
+	start_wait(env,4);
 	while (1)
 	{
 		if (env->bonus == 1)

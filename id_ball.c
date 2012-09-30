@@ -19,5 +19,5 @@ void	move_balle(t_env* env)
 	env->balle.y = env->balle.y + env->balle.addy;
 	tputs(tgoto(env->cm, env->balle.x, env->balle.y), 1, id_put);
 	id_print_str("\033[01;40m0");
-	usleep(50000);
+	usleep(10000);
 }

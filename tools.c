@@ -27,6 +27,8 @@ int	init_env(t_env* env)
 	env->player.point = 0;
 	env->bonus = 0;
 	tputs(tgetstr("vi", 0), 1, id_put);
+	env->level.lvl = 0;
+	env->level.n_mur = 17;
 	return 0;
 }
 
@@ -38,7 +40,13 @@ void	init_cadre(t_env* env)
 
 	count = 0;
 	tputs(env->cl, 1, id_put);
-	printf("Player Score : %d\n",env->player.point);
+	tputs(tgoto(env->cm, 0, 0), 1, id_put);
+	id_print_str("\033[22;32mPlayer Score: ");
+	id_print_nbr(env->player.point);
+	tputs(tgoto(env->cm, 0, 1), 1, id_put);
+	id_print_str("\033[22;32mLevel: ");
+	id_print_nbr(env->level.lvl);
+	
 	x = 0;
 	while (x < env->w)
 	{
