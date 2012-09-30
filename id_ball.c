@@ -1,3 +1,7 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+#include <unistd.h>
 #include "base.h"
 
 void	init_balle(t_env* env)

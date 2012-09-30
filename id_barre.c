@@ -30,12 +30,12 @@ void	actua_barre(t_env* env, int direct)
 			if(direct < 0)
 			{
 				tputs(tgoto(env->cm, env->barre.x - count, env->barre.y), 1, id_put);
-				write(1, " ", 1);
+				id_print_char(' ');
 			}
 			if(direct > 0)
 			{
 				tputs(tgoto(env->cm, env->barre.size + count, env->barre.y), 1, id_put);
-				write(1, " ", 1);
+				id_print_char(' ');
 			}
 			count = count - 1;
 		}

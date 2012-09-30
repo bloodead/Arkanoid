@@ -12,6 +12,7 @@ int	id_put(int c)
 
 	d = c;
 	write(1, &d, 1);
+	return 0;
 }
 
 int	init_env(t_env* env)
@@ -20,6 +21,8 @@ int	init_env(t_env* env)
 	int	success;
 
 	success = tgetent(0, termtype);
+	if (success == 0)
+		return 0;
 	env->w = tgetnum("co");
 	env->h = tgetnum("li");
 	env->cm = tgetstr("cm", 0);
@@ -36,9 +39,7 @@ void	init_cadre(t_env* env)
 {
 	int	x;
 	int	y;
-	int	count;
 
-	count = 0;
 	tputs(env->cl, 1, id_put);
 	tputs(tgoto(env->cm, 0, 0), 1, id_put);
 	id_print_str("\033[22;32mPlayer Score: ");

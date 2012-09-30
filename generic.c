@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include "base.h"
 
 
@@ -15,7 +16,7 @@ void	start_wait(t_env* env, int i)
 	while (i != 0)
 	{
 		tputs(tgoto(env->cm, x, y + 1), 1, id_put);
-		write(0,' ',1);
+		id_print_char(' ');
 		tputs(tgoto(env->cm, x, y + 1), 1, id_put);
 		id_print_nbr(i);
 		i = i - 1;

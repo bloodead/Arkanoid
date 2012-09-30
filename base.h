@@ -6,6 +6,12 @@ typedef struct	s_player
 	int	point;
 }	t_player;
 
+typedef struct	s_level
+{
+	int	lvl;
+	int	mur;
+	int	n_mur;
+}	t_level;
 typedef struct	s_brick
 {
 	int	x;
@@ -43,16 +49,26 @@ typedef struct	s_env
 	int	bonus;
 	int	bonusx;
 	int	bonusy;
+	t_level	level;
 	t_balle	balle;
 	t_barre barre;
 	t_player player;
 }	t_env;
 
+void    show_mur(t_mur* begin, t_env* env);
+void    resize_env(t_env* env,t_mur* mur);
+void    coli_brick(t_env* env, t_mur* mur);
+int     run(t_env* env, t_mur* mur);
+void    destroy_brick(t_mur* mur, t_env* env);
+void    actu_score(t_env* env);
+void id_print_char(char c);
+char *tgoto(const char *cap, int col, int row);
+int tputs(const char *str, int affcnt, int (*putc)(int));
 void    bonus(t_mur* mur, t_env* env);
-void    bonus_down(t_mur* mur, t_env* env);
+void    bonus_down(t_env* env);
 void    start_wait(t_env* env, int i);
 void    id_print_nbr(int n);
-void id_print_str(char* str);
+void 	id_print_str(char* str);
 void	init_mur(t_mur* mur, t_env* env);
 void	init_barre(t_env* env);
 void	actua_barre(t_env* env, int direct);

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <term.h>
+#include <unistd.h>
 #include "base.h"
 
 
@@ -14,7 +15,8 @@ void	finish(t_env* env)
 	x = env->w / 2;
 	y = env->h / 2;
 	tputs(tgoto(env->cm, x - 11, y), 1, id_put);
-	id_print_str("La partie est fini");
+	id_print_str("Niveau suivant...");
+	sleep(3);
 	env->level.lvl = env->level.lvl + 1;
 	env->level.n_mur = env->level.n_mur + 2;
 	init_cadre(env);
@@ -24,7 +26,7 @@ void	finish(t_env* env)
 	tputs(tgoto(env->cm, 0, 1), 1, id_put);
 	id_print_str("\033[22;32mLevel: ");
 	id_print_nbr(env->level.lvl);
-	sleep(10);
+	sleep(3);
 	run(env, &mur);
 }
 
@@ -63,7 +65,7 @@ void	actu_score(t_env* env)
 	while (x != env->w)
 	{
 		tputs(tgoto(env->cm, x, 0), 1, id_put);
-		write(0,' ',1);
+		id_print_char(' ');
 		x = x + 1;
 	}
 	tputs(tgoto(env->cm, 0, 0), 1, id_put);
@@ -100,6 +102,7 @@ int	init(t_env* env, t_mur* mur)
 	init_mur(mur, env);
 	init_balle(env);
 	init_barre(env);
+	return 0;
 }
 
 int	run(t_env* env, t_mur* mur)
@@ -108,7 +111,7 @@ int	run(t_env* env, t_mur* mur)
 	while (1)
 	{
 		if (env->bonus == 1)
-			bonus_down(mur, env);
+			bonus_down(env);
 		move_balle(env);
 		move_barre(env);
 		check_wall(env, mur);
@@ -124,4 +127,5 @@ int	main(void)
 
 	init(&env, &mur);
 	run(&env, &mur);
+	return 0;
 }

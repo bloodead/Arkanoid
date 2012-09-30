@@ -11,7 +11,7 @@ void	bonus(t_mur* mur, t_env* env)
 }
 
 
-void	bonus_down(t_mur* mur, t_env* env)
+void	bonus_down(t_env* env)
 {
 
 		tputs(tgoto(env->cm, env->bonusx, env->bonusy - 1), 1, id_put);
